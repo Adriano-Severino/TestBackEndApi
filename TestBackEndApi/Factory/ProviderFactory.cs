@@ -4,7 +4,7 @@ using TestBackEndApi.Helpers;
 using TestBackEndApi.Services.Repository;
 using TestBackEndApi.ViewModels.ProviderViewModel;
 using TestBackEndApi.ViewModels;
-using TestBackEndApi.Models;
+using TestBackEndApi.Domain;
 
 namespace TestBackEndApi.Factory
 {
@@ -22,13 +22,31 @@ namespace TestBackEndApi.Factory
         {
             return _providerRepository.GetProviders();
         }
-        public Provider GetProviderById(Guid id)
+        public ResultViewModel GetProviderById(Guid id)
         {
-            return _providerRepository.GetProviderById(id);
+            var provider = _providerRepository.GetProviderById(id);
+            return ResultCustom.Result(provider);
+            if (provider != null)
+            {
+                return new ResultViewModel
+                {
+                    Success = true,
+                    Message = $"Fornecedor {provider.Name}",
+                    Data = provider
+                };
+            }
+            return new ResultViewModel
+            {
+                Success = false,
+                Message = "Fornecedor não encontrado",
+                Data = provider
+            };
+
         }
-        public Provider SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null)
+        public ResultViewModel SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null)
         {
-            return _providerRepository.SearchProvider(Name, cpfCnpj, date);
+           var provider = _providerRepository.SearchProvider(Name, cpfCnpj, date);
+           return  ResultCustom.Result(provider);
         }
         public IEnumerable<ListProviderViewModel> GetCompanyProviders(Guid id)
         {

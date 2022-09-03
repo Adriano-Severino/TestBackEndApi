@@ -15,7 +15,6 @@ namespace TestBackEndApi.Services.Repository
         public IEnumerable<ListProviderViewModel> GetProviders()
         {
             return _context.Providers
-                //.Include(x => x.Categoria)
                 .Select(x => new ListProviderViewModel
                 {
                     Id = x.Id,
@@ -34,7 +33,6 @@ namespace TestBackEndApi.Services.Repository
         public Provider GetProviderById(Guid id)
         {
             return _context.Providers.AsNoTracking()
-            //.Include(x => x.Company)
             .Where(x => x.Id == id).FirstOrDefault();
 
         }
@@ -47,7 +45,6 @@ namespace TestBackEndApi.Services.Repository
         {
             return _context.Providers
                 .Where(x => x.Id == id)
-                //.Include(x => x.Company)
                 .Select(x => new ListProviderViewModel
                 {
                     Id = x.Id,
@@ -64,15 +61,17 @@ namespace TestBackEndApi.Services.Repository
             .ToList();
 
         }
-        public void Save(Provider provider)
+        public bool Save(Provider provider)
         {
             _context.Providers.Add(provider);
             _context.SaveChanges();
+            return true;
         }
-        public void UpdateProvider(Provider provider)
+        public bool UpdateProvider(Provider provider)
         {
             _context.Entry<Provider>(provider).State = EntityState.Modified;
             _context.SaveChanges();
+            return true;
         }
         public Provider DeleleProvider(Provider provider)
         {

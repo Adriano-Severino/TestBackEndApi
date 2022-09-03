@@ -10,8 +10,8 @@ namespace TestBackEndApi.Services.Repository
         public Provider GetProviderById(Guid id);
         public Provider SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null);
         public IEnumerable<ListProviderViewModel> GetCompanyProviders(Guid id);
-        public void Save(Provider provider);
-        public void UpdateProvider(Provider provider);
+        public bool Save(Provider provider);
+        public bool UpdateProvider(Provider provider);
         public Provider DeleleProvider(Provider provider);
         
     }

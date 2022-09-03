@@ -14,7 +14,7 @@ namespace TestBackEndApi.ViewModels.ProviderViewModel
         public Guid CompanyId { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime Registered { get; set; }

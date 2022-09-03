@@ -7,8 +7,8 @@ namespace TestBackEndApi.Factory
     public interface ProviderFactoryImp
     {
         public IEnumerable<ListProviderViewModel> GetProviders();
-        public Provider GetProviderById(Guid id);
-        public Provider SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null);
+        public ResultViewModel GetProviderById(Guid id);
+        public ResultViewModel SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null);
         public IEnumerable<ListProviderViewModel> GetCompanyProviders(Guid id);
         public ResultViewModel CreateProvider(EditProviderViewModel model);
         public ResultViewModel UpdateProvider(EditProviderViewModel model);

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TestBackEndApi.Data;
 using TestBackEndApi.Factory;
+using TestBackEndApi.Helpers.Extension;
 using TestBackEndApi.Repository;
 using TestBackEndApi.Services.Repository;
 
@@ -39,6 +40,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseItToSeedSqlServer();
 }
 
 app.UseHttpsRedirection();

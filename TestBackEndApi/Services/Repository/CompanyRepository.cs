@@ -54,15 +54,17 @@ namespace TestBackEndApi.Repository
                 .ToList();
 
         }
-        public void Save(Company company)
+        public bool Save(Company company)
         {
             _context.Companies.Add(company);
             _context.SaveChanges();
+            return true;
         }
-        public void UpdateCompany(Company company)
+        public bool UpdateCompany(Company company)
         {
             _context.Entry<Company>(company).State = EntityState.Modified;
             _context.SaveChanges();
+            return true;
         }
         public Company DeleleCompany(Company company)
         {

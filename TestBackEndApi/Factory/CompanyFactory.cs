@@ -1,4 +1,5 @@
-﻿using TestBackEndApi.Helpers;
+﻿using TestBackEndApi.Domain;
+using TestBackEndApi.Helpers;
 using TestBackEndApi.Models;
 using TestBackEndApi.Services.Repository;
 using TestBackEndApi.ViewModels;
@@ -19,9 +20,10 @@ namespace TestBackEndApi.Factory
         {
             return _companyRepository.GetCompanies();
         }
-        public Company GetCompanyById(Guid id)
+        public ResultViewModel GetCompanyById(Guid id)
         {
-            return _companyRepository.GetCompanyById(id);
+            var company = _companyRepository.GetCompanyById(id);
+            return ResultCustom.Result(company);
         }
         public IEnumerable<ListCompanyViewModel> GetCompaniesProvider(Guid id)
         {

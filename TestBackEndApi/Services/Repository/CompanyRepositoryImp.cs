@@ -12,8 +12,8 @@ namespace TestBackEndApi.Services.Repository
         public IEnumerable<ListCompanyViewModel> GetCompanies();
         public Company GetCompanyById(Guid id);
         public IEnumerable<ListCompanyViewModel> GetCompaniesProvider(Guid id);
-        public void Save(Company company);
-        public void UpdateCompany(Company company);
+        public bool Save(Company company);
+        public bool UpdateCompany(Company company);
         public Company DeleleCompany(Company company);
     }
 }

@@ -10,7 +10,7 @@ namespace TestBackEndApi.Factory
     public interface CompanyFactoryImp
     {
         public IEnumerable<ListCompanyViewModel> GetCompanies();
-        public Company GetCompanyById(Guid id);
+        public ResultViewModel GetCompanyById(Guid id);
         public IEnumerable<ListCompanyViewModel> GetCompaniesProvider(Guid id);
         public ResultViewModel CreateCompany(EditCompanyViewModel model);
         public ResultViewModel UpdateCompany(EditCompanyViewModel model);
