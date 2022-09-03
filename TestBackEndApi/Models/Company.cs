@@ -8,7 +8,6 @@ namespace TestBackEndApi.Models
         public string FantasyName { get; set; }
         public string Cnpj { get; set; }
         public string Uf { get; set; }
-        public Guid ProviderId { get; set; }
         public ICollection<Provider> Providers { get; set; }
 
     }

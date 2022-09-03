@@ -16,11 +16,11 @@ namespace TestBackEndApi.ViewModels.CompanyViewModel
         {
             AddNotifications(new Contract<Notification>()
                 .IsCnpj(Cnpj, "CNPJ", "CNPJ inválido")
+               .IsGreaterOrEqualsThan(Uf, 2, "Uf", "Nome Fantasia deve ter no minimo 2 caracteres")
+               .IsLowerOrEqualsThan(Uf, 2, "Uf", "Nome Fantasia deve ter no máximo 2 caracteres")
                .IsGreaterThan(FantasyName, 3, "FantasyName", "Nome Fantasia deve ter no minimo 3 caracteres")
                .IsLowerThan(FantasyName, 64, "FantasyName", "Nome Fantasia deve ser menor que 64 caracteres")
                .IsNotNullOrEmpty(FantasyName, "Nome Fantasia é obrigatório")
-               .IsNotNullOrEmpty(Cnpj, "Cnpj é obrigatório")
-               .IsNotNullOrEmpty(Uf, "Uf é obrigatório")
                );
         }
     }

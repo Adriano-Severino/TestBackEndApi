@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using TestBackEndApi.Data.Maps;
-using TestBackEndApi.Models;
+using TestBackEndApi.Domain;
 
 namespace TestBackEndApi.Data
 {

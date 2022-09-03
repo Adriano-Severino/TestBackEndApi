@@ -12,13 +12,10 @@
         }
         public static bool IsOfAge(this DateTime dateOfBirth)
         {
-            var today = DateTime.Today;
-            var a = (today.Year * 100 + today.Month) * 100 + today.Day;
-            var b = (dateOfBirth.Year * 100 + dateOfBirth.Month) * 100 + dateOfBirth.Day;
-            if ((a - b) / 10000 <= 17)
-            {
+            var valor = CalculateOfAgeProvider(dateOfBirth);
+            if (valor <= 17)
                 return true;
-            }
+            
             return false;
         }
     }

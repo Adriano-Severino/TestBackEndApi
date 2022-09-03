@@ -1,52 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TestBackEndApi.Domain;
 using TestBackEndApi.Helpers;
-using TestBackEndApi.Models;
-using TestBackEndApi.Repository;
+using TestBackEndApi.Services.Repository;
 using TestBackEndApi.ViewModels;
 using TestBackEndApi.ViewModels.CompanyViewModel;
 using TestBackEndApi.ViewModels.RepositoryViewModel;
 
-namespace TestBackEndApi.Controllers
+
+namespace TestBackEndApi.Factory
 {
-    [ApiController]
-    [Route("api/v1/[controller]")]
-    public class CompanyController : ControllerBase
+    public class CompanyFactory 
     {
-        private readonly CompanyRepository _Repositorio;
-
-        public CompanyController(CompanyRepository repositorio)
+        private readonly CompanyRepositoryImp _companyRepository;
+        public CompanyFactory(CompanyRepositoryImp companyRepository)
         {
-            _Repositorio = repositorio;
+            _companyRepository = companyRepository;
         }
-
-        [Route("companies")]
-        [HttpGet]
         public IEnumerable<ListCompanyViewModel> GetCompanies()
         {
-            return _Repositorio.GetCompanies();
+            return _companyRepository.GetCompanies();
         }
-
-        [Route("company/{id}")]
-        [HttpGet]
-        public TestBackEndApi.Domain.Company GetCompanyById(Guid id)
+        public Company GetCompanyById(Guid id)
         {
-            return _Repositorio.GetCompanyById(id);
+            return _companyRepository.GetCompanyById(id);
         }
-
-        [Route("company/{id}/teste")]
-        [HttpGet]
         public IEnumerable<ListCompanyViewModel> GetCompaniesProvider(Guid id)
         {
-            return _Repositorio.GetCompaniesProvider(id);
+            return _companyRepository.GetCompaniesProvider(id);
         }
-
-        [Route("company")]
-        [HttpPost]
-        public ResultViewModel CreateCompany([Bind("Id,FantasyName,Cnpj,Uf")][FromBody] EditCompanyViewModel model)
+        public ResultViewModel CreateCompany(EditCompanyViewModel model)
         {
             var cnpj = model.Cnpj;
-            model.Cnpj =  CustomFormatAttribute.RemoveCharacterString(model.Cnpj);
-            
+            model.Cnpj = CustomFormatAttribute.RemoveCharacterString(model.Cnpj);
+
             model.Validate();
             if (!model.IsValid)
                 return new ResultViewModel
@@ -61,7 +47,7 @@ namespace TestBackEndApi.Controllers
                 company.FantasyName = model.FantasyName;
                 company.Cnpj = cnpj;
 
-                _Repositorio.Save(company);
+                _companyRepository.Save(company);
 
                 return new ResultViewModel
                 {
@@ -81,13 +67,9 @@ namespace TestBackEndApi.Controllers
             }
 
         }
-
-        [Route("company")]
-        [HttpPut]
-        [ValidateAntiForgeryToken]
-        public ResultViewModel UpdateCompany([Bind("Id,FantasyName,Cnpj,Uf")][FromBody] EditCompanyViewModel model)
+        public ResultViewModel UpdateCompany(EditCompanyViewModel model)
         {
-            var company = _Repositorio.GetCompanyById(model.Id);
+            var company = _companyRepository.GetCompanyById(model.Id);
 
             if (company == null)
             {
@@ -112,7 +94,7 @@ namespace TestBackEndApi.Controllers
                 company.FantasyName = model.FantasyName;
                 company.Uf = company.Uf;
 
-                _Repositorio.UpdateCompany(company);
+                _companyRepository.UpdateCompany(company);
 
                 return new ResultViewModel
                 {
@@ -131,15 +113,12 @@ namespace TestBackEndApi.Controllers
                 };
             }
         }
-
-        [Route("company/{id}")]
-        [HttpDelete]
         public ResultViewModel DeleteCompany(Guid id)
         {
             try
 
             {
-                var company = _Repositorio.GetCompanyById(id);
+                var company = _companyRepository.GetCompanyById(id);
 
                 if (company == null)
                 {
@@ -150,7 +129,7 @@ namespace TestBackEndApi.Controllers
                     };
                 }
 
-                _Repositorio.DeleleCompany(company);
+                _companyRepository.DeleleCompany(company);
 
                 return new ResultViewModel
                 {

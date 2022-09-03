@@ -9,6 +9,6 @@ namespace TestBackEndApi.ViewModels.RepositoryViewModel
         public string FantasyName { get; set; }
         public string Cnpj { get; set; }
         public string Uf { get; set; }
-        public ICollection<Provider> Providers { get; set; }
+        public object Providers { get; set; }
     }
 }

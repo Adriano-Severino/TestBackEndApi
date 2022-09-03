@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using TestBackEndApi.Models;
+using TestBackEndApi.Domain;
 
 namespace TestBackEndApi.Data.Maps
 {

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TestBackEndApi.Data;
 using TestBackEndApi.Repository;
+using TestBackEndApi.Services.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services.AddScoped<ApplicationDbContext, ApplicationDbContext>();
-builder.Services.AddTransient<CompanyRepository, CompanyRepository>();
+builder.Services.AddTransient<CompanyRepositoryImp, CompanyRepository>();
+builder.Services.AddTransient<ProviderRepositoryImp, ProviderRepository>();
 
 builder.Services.AddControllersWithViews()
               .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling =
