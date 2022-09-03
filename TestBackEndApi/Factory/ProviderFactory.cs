@@ -8,7 +8,7 @@ using TestBackEndApi.Models;
 
 namespace TestBackEndApi.Factory
 {
-    public class ProviderFactory
+    public class ProviderFactory : ProviderFactoryImp
     {
         private readonly ProviderRepositoryImp _providerRepository;
         private readonly CompanyRepositoryImp _companyRepository;

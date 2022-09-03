@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TestBackEndApi.Domain;
-using TestBackEndApi.Helpers;
+﻿using TestBackEndApi.Helpers;
+using TestBackEndApi.Models;
 using TestBackEndApi.Services.Repository;
 using TestBackEndApi.ViewModels;
 using TestBackEndApi.ViewModels.CompanyViewModel;
@@ -9,7 +8,7 @@ using TestBackEndApi.ViewModels.RepositoryViewModel;
 
 namespace TestBackEndApi.Factory
 {
-    public class CompanyFactory 
+    public class CompanyFactory : CompanyFactoryImp
     {
         private readonly CompanyRepositoryImp _companyRepository;
         public CompanyFactory(CompanyRepositoryImp companyRepository)
