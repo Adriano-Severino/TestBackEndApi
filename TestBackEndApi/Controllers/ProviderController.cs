@@ -1,15 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TestBackEndApi.Helpers;
-using TestBackEndApi.ViewModels.CompanyViewModel;
-using TestBackEndApi.ViewModels.RepositoryViewModel;
-using TestBackEndApi.ViewModels;
-using TestBackEndApi.Repository;
-using TestBackEndApi.Services.Repository;
-using TestBackEndApi.ViewModels.ProviderViewModel;
-using TestBackEndApi.Models;
-using TestBackEndApi.Helpers.Extension;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TestBackEndApi.Factory;
-using System.ComponentModel.DataAnnotations;
+using TestBackEndApi.Models.ViewModels;
+using TestBackEndApi.Models.ViewModels.ProviderViewModel;
+using TestBackEndApi.Repository;
 
 namespace TestBackEndApi.Controllers
 {
@@ -26,52 +20,59 @@ namespace TestBackEndApi.Controllers
         }
 
         [Route("providers")]
+        [AllowAnonymous]
         [HttpGet]
-        public IEnumerable<ListProviderViewModel> GetProviders()
+        public async Task<IEnumerable<ListProviderViewModel>> GetProvidersAsync()
         {
-            return _providerFactory.GetProviders();
+            return await _providerFactory.GetProvidersAsync();
         }
 
         [Route("provider/{id}")]
+        [Authorize("Admin")]
         [HttpGet]
-        public ResultViewModel GetProviderById(Guid id)
+        public async Task<ResultViewModel> GetProviderByIdAsync(Guid id)
         {
-            return _providerFactory.GetProviderById(id);
+            return await _providerFactory.GetProviderByIdAsync(id);
         }
 
         [Route("provider/search")]
+        [Authorize("Admin")]
         [HttpGet]
-        public ResultViewModel SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null)
+        public async Task<ResultViewModel> SearchProviderAsync(string? Name = null, string? cpfCnpj = null, DateTime? date = null)
         {
-            return _providerFactory.SearchProvider(Name, cpfCnpj, date);
+            return await _providerFactory.SearchProviderAsync(Name, cpfCnpj, date);
         }
 
         [Route("provider/{id}/company")]
+        [Authorize("Admin")]
         [HttpGet]
-        public IEnumerable<ListProviderViewModel> GetCompanyProviders(Guid id)
+        public async Task<IEnumerable<ListProviderViewModel>> GetCompanyProvidersAsync(Guid id)
         {
-            return _providerFactory.GetCompanyProviders(id);
+            return await _providerFactory.GetCompanyProvidersAsync(id);
         }
 
         [Route("provider")]
+        [Authorize("Admin")]
         [HttpPost]
-        public ResultViewModel CreateProvider([Bind("Name,CpfCnpj,Rg,Telephone,BirthDate,Registered")][FromBody] EditProviderViewModel model)
+        public async Task<ResultViewModel> CreateProviderAsync([Bind("Name,CpfCnpj,Rg,Telephone,BirthDate,Registered")][FromBody] EditProviderViewModel model)
         {
-            return _providerFactory.CreateProvider(model);
+            return await _providerFactory.CreateProviderAsync(model);
         }
 
         [Route("provider")]
+        [Authorize("Admin")]
         [HttpPut]
-        public ResultViewModel UpdateProvider([Bind("Id,Name,CpfCnpj,Rg,Telephone,BirthDate,Registered")][FromBody] EditProviderViewModel model)
+        public async Task<ResultViewModel> UpdateProviderAsync([Bind("Id,Name,CpfCnpj,Rg,Telephone,BirthDate,Registered")][FromBody] EditProviderViewModel model)
         {
-            return _providerFactory.UpdateProvider(model);
+            return await _providerFactory.UpdateProviderAsync(model);
         }
 
         [Route("provider/{id}")]
+        [Authorize("Admin")]
         [HttpDelete]
-        public ResultViewModel DeleteProvider(Guid id)
+        public async Task<ResultViewModel> DeleteProviderAsync(Guid id)
         {
-            return _providerFactory.DeleteProvider(id);
+            return await _providerFactory.DeleteProviderAsync(id);
         }
     }
 }

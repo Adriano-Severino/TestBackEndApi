@@ -1,4 +1,4 @@
-﻿using TestBackEndApi.ViewModels;
+﻿using TestBackEndApi.Models.ViewModels;
 
 namespace TestBackEndApi.Helpers
 {

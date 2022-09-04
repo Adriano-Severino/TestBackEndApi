@@ -1,9 +1,5 @@
-﻿using Flunt.Extensions.Br.Validations;
-using Flunt.Notifications;
-using Flunt.Validations;
-using System.Xml.Linq;
-using TestBackEndApi.ViewModels.ProviderViewModel;
-using DocumentValidator;
+﻿using DocumentValidator;
+using TestBackEndApi.Models.ViewModels.ProviderViewModel;
 
 namespace TestBackEndApi.Helpers
 {

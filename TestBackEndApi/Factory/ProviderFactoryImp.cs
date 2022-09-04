@@ -1,17 +1,17 @@
 ﻿using TestBackEndApi.Models;
-using TestBackEndApi.ViewModels;
-using TestBackEndApi.ViewModels.ProviderViewModel;
+using TestBackEndApi.Models.ViewModels;
+using TestBackEndApi.Models.ViewModels.ProviderViewModel;
 
 namespace TestBackEndApi.Factory
 {
     public interface ProviderFactoryImp
     {
-        public IEnumerable<ListProviderViewModel> GetProviders();
-        public ResultViewModel GetProviderById(Guid id);
-        public ResultViewModel SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null);
-        public IEnumerable<ListProviderViewModel> GetCompanyProviders(Guid id);
-        public ResultViewModel CreateProvider(EditProviderViewModel model);
-        public ResultViewModel UpdateProvider(EditProviderViewModel model);
-        public ResultViewModel DeleteProvider(Guid id);
+        public Task<IEnumerable<ListProviderViewModel>> GetProvidersAsync();
+        public Task<ResultViewModel> GetProviderByIdAsync(Guid id);
+        public Task<ResultViewModel> SearchProviderAsync(string? Name = null, string? cpfCnpj = null, DateTime? date = null);
+        public Task<IEnumerable<ListProviderViewModel>> GetCompanyProvidersAsync(Guid id);
+        public Task<ResultViewModel> CreateProviderAsync(EditProviderViewModel model);
+        public Task<ResultViewModel> UpdateProviderAsync(EditProviderViewModel model);
+        public Task<ResultViewModel> DeleteProviderAsync(Guid id);
     }
 }

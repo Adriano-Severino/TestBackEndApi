@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TestBackEndApi.Data;
 using TestBackEndApi.Domain;
-using TestBackEndApi.ViewModels.ProviderViewModel;
+using TestBackEndApi.Models.ViewModels.ProviderViewModel;
 
 namespace TestBackEndApi.Services.Repository
 {
@@ -12,9 +12,9 @@ namespace TestBackEndApi.Services.Repository
         {
             _context = context;
         }
-        public IEnumerable<ListProviderViewModel> GetProviders()
+        public async Task<IEnumerable<ListProviderViewModel>> GetProvidersAsync()
         {
-            return _context.Providers
+            return await _context.Providers
                 .Select(x => new ListProviderViewModel
                 {
                     Id = x.Id,
@@ -27,56 +27,55 @@ namespace TestBackEndApi.Services.Repository
                     Rg = x.Rg,
                 })
                 .AsNoTracking()
-            .ToList();
+            .ToListAsync();
 
         }
-        public Provider GetProviderById(Guid id)
+        public async Task<Provider> GetProviderByIdAsync(Guid id)
         {
-            return _context.Providers.AsNoTracking()
-            .Where(x => x.Id == id).FirstOrDefault();
+            return await Task.FromResult(_context.Providers.AsNoTracking().Where(x => x.Id == id).FirstOrDefault());
 
         }
-        public IEnumerable<Provider> SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null)
+        public async Task<IEnumerable<Provider>> SearchProviderAsync(string? Name = null, string? cpfCnpj = null, DateTime? date = null)
         {
-            return _context.Providers.Where(x => x.Name == Name || x.CpfCnpj == cpfCnpj || x.BirthDate == date || x.Registered == date).AsNoTracking().ToList();
+            return await _context.Providers.Where(x => x.Name.Contains(Name) || x.CpfCnpj == cpfCnpj || x.BirthDate == date || x.Registered == date).AsNoTracking().ToListAsync();
         }
-        public IEnumerable<ListProviderViewModel> GetCompanyProviders(Guid id)
+        public async Task<IEnumerable<ListProviderViewModel>> GetCompanyProvidersAsync(Guid id)
         {
-            return _context.Providers
+            return await _context.Providers
                 .Where(x => x.Id == id)
                 .Select(x => new ListProviderViewModel
                 {
                     Id = x.Id,
-                   Name = x.Name,
-                   BirthDate = x.BirthDate,
-                   CompanyId = x.Company.Id,
-                   CompanyName = x.CompanyName,
-                   Registered = x.Registered,
-                   CpfCnpj = x.CpfCnpj,
-                   Rg =x.Rg,
-                   Company = x.Company
-                   
+                    Name = x.Name,
+                    BirthDate = x.BirthDate,
+                    CompanyId = x.Company.Id,
+                    CompanyName = x.CompanyName,
+                    Registered = x.Registered,
+                    CpfCnpj = x.CpfCnpj,
+                    Rg = x.Rg,
+                    Company = x.Company
+
                 })
                 .AsNoTracking()
-            .ToList();
+            .ToListAsync();
 
         }
-        public bool Save(Provider provider)
+        public async Task<bool> SaveAsync(Provider provider)
         {
             _context.Providers.Add(provider);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
         }
-        public bool UpdateProvider(Provider provider)
+        public async Task<bool> UpdateProviderAsync(Provider provider)
         {
             _context.Entry<Provider>(provider).State = EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
         }
-        public Provider DeleleProvider(Provider provider)
+        public async Task<Provider> DeleleProviderAsync(Provider provider)
         {
             _context.Providers.Remove(provider);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return provider;
         }

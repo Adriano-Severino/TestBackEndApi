@@ -8,7 +8,9 @@ namespace TestBackEndApi.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Company> Companies { get; set; }
+        
         public DbSet<Provider> Providers { get; set; }
+        public DbSet<User> Users { get; set; }
         public ApplicationDbContext(
             DbContextOptions options,
             IOptions<ApplicationDbContext> operationalStoreOptions) : base(options)
@@ -19,6 +21,7 @@ namespace TestBackEndApi.Data
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new CompanyMap());
             builder.ApplyConfiguration(new ProviderMap());
+            builder.ApplyConfiguration(new UserMap());
         }
 
     }

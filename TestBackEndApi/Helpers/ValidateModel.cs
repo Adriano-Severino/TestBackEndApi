@@ -1,5 +1,5 @@
-﻿using TestBackEndApi.ViewModels;
-using TestBackEndApi.ViewModels.ProviderViewModel;
+﻿using TestBackEndApi.Models.ViewModels;
+using TestBackEndApi.Models.ViewModels.ProviderViewModel;
 
 namespace TestBackEndApi.Helpers
 {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TestBackEndApi.Models;
 
-namespace TestBackEndApi.ViewModels.RepositoryViewModel
+namespace TestBackEndApi.Models.ViewModels.RepositoryViewModel
 {
     public class ListCompanyViewModel
     {

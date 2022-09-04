@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TestBackEndApi.Helpers.Extension;
+﻿using TestBackEndApi.Domain;
 using TestBackEndApi.Helpers;
+using TestBackEndApi.Models.ViewModels;
+using TestBackEndApi.Models.ViewModels.ProviderViewModel;
 using TestBackEndApi.Services.Repository;
-using TestBackEndApi.ViewModels.ProviderViewModel;
-using TestBackEndApi.ViewModels;
-using TestBackEndApi.Domain;
 
 namespace TestBackEndApi.Factory
 {
@@ -18,25 +16,25 @@ namespace TestBackEndApi.Factory
             _companyRepository = companyRepository;
         }
 
-        public IEnumerable<ListProviderViewModel> GetProviders()
+        public async Task<IEnumerable<ListProviderViewModel>> GetProvidersAsync()
         {
-            return _providerRepository.GetProviders();
+            return await _providerRepository.GetProvidersAsync();
         }
-        public ResultViewModel GetProviderById(Guid id)
+        public async Task<ResultViewModel> GetProviderByIdAsync(Guid id)
         {
-            var provider = _providerRepository.GetProviderById(id);
+            var provider = await _providerRepository.GetProviderByIdAsync(id);
             return ResultCustom.Result(provider);
         }
-        public ResultViewModel SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null)
+        public async Task<ResultViewModel> SearchProviderAsync(string? Name = null, string? cpfCnpj = null, DateTime? date = null)
         {
-            var provider = _providerRepository.SearchProvider(Name, cpfCnpj, date);
+            var provider = await _providerRepository.SearchProviderAsync(Name, cpfCnpj, date);
             return ResultCustom.Result(provider);
         }
-        public IEnumerable<ListProviderViewModel> GetCompanyProviders(Guid id)
+        public async Task<IEnumerable<ListProviderViewModel>> GetCompanyProvidersAsync(Guid id)
         {
-            return _providerRepository.GetCompanyProviders(id);
+            return await _providerRepository.GetCompanyProvidersAsync(id);
         }
-        public ResultViewModel CreateProvider(EditProviderViewModel model)
+        public async Task<ResultViewModel> CreateProviderAsync(EditProviderViewModel model)
         {
             var cpfCnpj = model.CpfCnpj;
             model.CpfCnpj = CustomFormatAttribute.RemoveCharacterString(model.CpfCnpj);
@@ -45,10 +43,10 @@ namespace TestBackEndApi.Factory
             if (!model.IsValid)
             {
                 var error = ValidateModel.isNotValid(model);
-                if (error.Data != "CNPJ") return error; 
+                if (error.Data != "CNPJ") return error;
             }
-            
-            var company = _companyRepository.GetCompanyById(model.CompanyId);
+
+            var company = await _companyRepository.GetCompanyByIdAsync(model.CompanyId);
             if (company == null)
                 return new ResultViewModel
                 {
@@ -58,7 +56,7 @@ namespace TestBackEndApi.Factory
                 };
 
             var ofAge = IsOfAge.Result(model, company);
-            
+
             if (ofAge)
             {
                 return new ResultViewModel
@@ -81,7 +79,7 @@ namespace TestBackEndApi.Factory
                 provider.CompanyId = model.CompanyId;
                 provider.Telephone = model.Telephone;
 
-                _providerRepository.Save(provider);
+                await _providerRepository.SaveAsync(provider);
 
                 return new ResultViewModel
                 {
@@ -101,13 +99,13 @@ namespace TestBackEndApi.Factory
             }
 
         }
-        public ResultViewModel UpdateProvider(EditProviderViewModel model)
+        public async Task<ResultViewModel> UpdateProviderAsync(EditProviderViewModel model)
         {
             var cpfCnpj = model.CpfCnpj;
             model.CpfCnpj = CustomFormatAttribute.RemoveCharacterString(model.CpfCnpj);
             model.PhysicalPerson = false;
 
-            var provider = _providerRepository.GetProviderById(model.Id);
+            var provider = await _providerRepository.GetProviderByIdAsync(model.Id);
 
             if (provider == null)
             {
@@ -116,9 +114,9 @@ namespace TestBackEndApi.Factory
 
             model.Validate();
             if (!model.IsValid)
-                ValidateModel.isNotValid(model);  
+                ValidateModel.isNotValid(model);
 
-            var company = _companyRepository.GetCompanyById(model.CompanyId);
+            var company = await _companyRepository.GetCompanyByIdAsync(model.CompanyId);
             if (company == null)
                 return new ResultViewModel
                 {
@@ -128,7 +126,7 @@ namespace TestBackEndApi.Factory
                 };
 
             var ofAge = IsOfAge.Result(model, company);
-            
+
             if (ofAge)
             {
                 return new ResultViewModel
@@ -149,7 +147,7 @@ namespace TestBackEndApi.Factory
                 provider.CompanyId = model.CompanyId;
                 provider.Telephone = model.Telephone;
 
-                _providerRepository.UpdateProvider(provider);
+                await _providerRepository.UpdateProviderAsync(provider);
 
                 return new ResultViewModel
                 {
@@ -168,19 +166,19 @@ namespace TestBackEndApi.Factory
                 };
             }
         }
-        public ResultViewModel DeleteProvider(Guid id)
+        public async Task<ResultViewModel> DeleteProviderAsync(Guid id)
         {
             try
 
             {
-                var provider = _providerRepository.GetProviderById(id);
+                var provider = await _providerRepository.GetProviderByIdAsync(id);
 
                 if (provider == null)
                 {
                     return ResultCustom.Result(provider);
                 }
 
-                _providerRepository.DeleleProvider(provider);
+                await _providerRepository.DeleleProviderAsync(provider);
 
                 return new ResultViewModel
                 {

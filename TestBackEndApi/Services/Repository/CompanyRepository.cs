@@ -2,7 +2,7 @@
 using TestBackEndApi.Data;
 using TestBackEndApi.Domain;
 using TestBackEndApi.Services.Repository;
-using TestBackEndApi.ViewModels.RepositoryViewModel;
+using TestBackEndApi.Models.ViewModels.RepositoryViewModel;
 
 namespace TestBackEndApi.Repository
 {
@@ -14,10 +14,9 @@ namespace TestBackEndApi.Repository
         {
             _context = context;
         }
-        public IEnumerable<ListCompanyViewModel> GetCompanies()
+        public async Task<IEnumerable<ListCompanyViewModel>> GetCompaniesAsync()
         {
-            return _context.Companies
-                //.Include(x => x.Providers)
+            return await _context.Companies
                 .Select(x => new ListCompanyViewModel
                 {
                     Id = x.Id,
@@ -27,19 +26,17 @@ namespace TestBackEndApi.Repository
                     Providers = x.Providers
                 })
                 .AsNoTracking()
-                .ToList();
+                .ToListAsync();
 
         }
-        public Company GetCompanyById(Guid id)
+        public async Task<Company> GetCompanyByIdAsync(Guid id)
         {
-            return _context.Companies.AsNoTracking()
-            //.Include(x => x.Providers)
-            .Where(x => x.Id == id).FirstOrDefault();
+            return await Task.FromResult(_context.Companies.AsNoTracking().Where(x => x.Id == id).FirstOrDefault());
 
         }
-        public IEnumerable<ListCompanyViewModel> GetCompaniesProvider(Guid id)
+        public async Task<IEnumerable<ListCompanyViewModel>> GetCompaniesProviderAsync(Guid id)
         {
-            return _context.Companies
+            return await _context.Companies
                 .Where(x => x.Id == id)
                 .Select(x => new ListCompanyViewModel
                 {
@@ -50,25 +47,25 @@ namespace TestBackEndApi.Repository
                     Providers = x.Providers
                 })
                 .AsNoTracking()
-                .ToList();
+                .ToListAsync();
 
         }
-        public bool Save(Company company)
+        public async Task<bool> SaveAsync(Company company)
         {
             _context.Companies.Add(company);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
         }
-        public bool UpdateCompany(Company company)
+        public async Task<bool> UpdateCompanyAsync(Company company)
         {
             _context.Entry<Company>(company).State = EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
         }
-        public Company DeleleCompany(Company company)
+        public async Task<Company> DeleleCompanyAsync(Company company)
         {
             _context.Companies.Remove(company);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return company;
         }

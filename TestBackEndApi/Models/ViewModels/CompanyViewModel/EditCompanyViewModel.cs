@@ -4,7 +4,7 @@ using Flunt.Validations;
 using TestBackEndApi.Domain;
 using TestBackEndApi.Helpers;
 
-namespace TestBackEndApi.ViewModels.CompanyViewModel
+namespace TestBackEndApi.Models.ViewModels.CompanyViewModel
 {
     public class EditCompanyViewModel : Notifiable<Notification>
     {

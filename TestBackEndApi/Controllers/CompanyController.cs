@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TestBackEndApi.Factory;
-using TestBackEndApi.Helpers;
-using TestBackEndApi.Models;
-using TestBackEndApi.Repository;
-using TestBackEndApi.ViewModels;
-using TestBackEndApi.ViewModels.CompanyViewModel;
-using TestBackEndApi.ViewModels.RepositoryViewModel;
+using TestBackEndApi.Models.ViewModels;
+using TestBackEndApi.Models.ViewModels.CompanyViewModel;
+using TestBackEndApi.Models.ViewModels.RepositoryViewModel;
 
 namespace TestBackEndApi.Controllers
 {
@@ -21,45 +19,51 @@ namespace TestBackEndApi.Controllers
         }
 
         [Route("companies")]
+        [AllowAnonymous]
         [HttpGet]
-        public IEnumerable<ListCompanyViewModel> GetCompanies()
+        public async Task<IEnumerable<ListCompanyViewModel>> GetCompanies()
         {
-            return _companyFactory.GetCompanies();
+            return await _companyFactory.GetCompaniesAsync();
         }
 
         [Route("company/{id}")]
+        [Authorize("Admin")]
         [HttpGet]
-        public ResultViewModel GetCompanyById(Guid id)
+        public async Task<ResultViewModel> GetCompanyByIdAsync(Guid id)
         {
-            return _companyFactory.GetCompanyById(id);
+            return await _companyFactory.GetCompanyByIdAsync(id);
         }
 
         [Route("company/{id}/Provider")]
+        [Authorize("Admin")]
         [HttpGet]
-        public IEnumerable<ListCompanyViewModel> GetCompaniesProvider(Guid id)
+        public async Task<IEnumerable<ListCompanyViewModel>> GetCompaniesProviderAsync(Guid id)
         {
-            return _companyFactory.GetCompaniesProvider(id);
+            return await _companyFactory.GetCompaniesProviderAsync(id);
         }
 
         [Route("company")]
+        [Authorize("Admin")]
         [HttpPost]
-        public ResultViewModel CreateCompany([Bind("Id,FantasyName,Cnpj,Uf")][FromBody] EditCompanyViewModel model)
+        public async Task<ResultViewModel> CreateCompanyAsync([Bind("Username,Password")][FromBody] EditCompanyViewModel model)
         {
-            return _companyFactory.CreateCompany(model);
+            return await _companyFactory.CreateCompanyAsync(model);
         }
 
         [Route("company")]
+        [Authorize("Admin")]
         [HttpPut]
-        public ResultViewModel UpdateCompany([Bind("Id,FantasyName,Cnpj,Uf")][FromBody] EditCompanyViewModel model)
+        public async Task<ResultViewModel> UpdateCompanyAsync([Bind("Id,FantasyName,Cnpj,Uf")][FromBody] EditCompanyViewModel model)
         {
-            return _companyFactory.UpdateCompany(model);
+            return await _companyFactory.UpdateCompanyAsync(model);
         }
 
         [Route("company/{id}")]
+        [Authorize("Admin")]
         [HttpDelete]
-        public ResultViewModel DeleteCompany(Guid id)
+        public async Task<ResultViewModel> DeleteCompanyAsync(Guid id)
         {
-            return  _companyFactory.DeleteCompany(id);
+            return await _companyFactory.DeleteCompanyAsync(id);
         }
     }
 }

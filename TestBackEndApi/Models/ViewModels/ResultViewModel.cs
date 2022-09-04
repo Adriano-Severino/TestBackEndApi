@@ -1,4 +1,4 @@
-﻿namespace TestBackEndApi.ViewModels
+﻿namespace TestBackEndApi.Models.ViewModels
 {
     public class ResultViewModel
     {

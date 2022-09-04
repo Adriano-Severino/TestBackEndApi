@@ -1,9 +1,9 @@
 ﻿using TestBackEndApi.Domain;
 using TestBackEndApi.Helpers;
 using TestBackEndApi.Services.Repository;
-using TestBackEndApi.ViewModels;
-using TestBackEndApi.ViewModels.CompanyViewModel;
-using TestBackEndApi.ViewModels.RepositoryViewModel;
+using TestBackEndApi.Models.ViewModels;
+using TestBackEndApi.Models.ViewModels.CompanyViewModel;
+using TestBackEndApi.Models.ViewModels.RepositoryViewModel;
 
 
 namespace TestBackEndApi.Factory
@@ -15,20 +15,20 @@ namespace TestBackEndApi.Factory
         {
             _companyRepository = companyRepository;
         }
-        public IEnumerable<ListCompanyViewModel> GetCompanies()
+        public async Task<IEnumerable<ListCompanyViewModel>> GetCompaniesAsync()
         {
-            return _companyRepository.GetCompanies();
+            return await _companyRepository.GetCompaniesAsync();
         }
-        public ResultViewModel GetCompanyById(Guid id)
+        public async Task<ResultViewModel> GetCompanyByIdAsync(Guid id)
         {
-            var company = _companyRepository.GetCompanyById(id);
+            var company = await _companyRepository.GetCompanyByIdAsync(id);
             return ResultCustom.Result(company);
         }
-        public IEnumerable<ListCompanyViewModel> GetCompaniesProvider(Guid id)
+        public async Task<IEnumerable<ListCompanyViewModel>> GetCompaniesProviderAsync(Guid id)
         {
-            return _companyRepository.GetCompaniesProvider(id);
+            return await _companyRepository.GetCompaniesProviderAsync(id);
         }
-        public ResultViewModel CreateCompany(EditCompanyViewModel model)
+        public async Task<ResultViewModel> CreateCompanyAsync(EditCompanyViewModel model)
         {
             var cnpj = model.Cnpj;
             model.Cnpj = CustomFormatAttribute.RemoveCharacterString(model.Cnpj);
@@ -48,7 +48,7 @@ namespace TestBackEndApi.Factory
                 company.Cnpj = cnpj;
                 company.Uf = model.Uf;
 
-                _companyRepository.Save(company);
+                await _companyRepository.SaveAsync(company);
 
                 return new ResultViewModel
                 {
@@ -68,16 +68,16 @@ namespace TestBackEndApi.Factory
             }
 
         }
-        public ResultViewModel UpdateCompany(EditCompanyViewModel model)
+        public async Task<ResultViewModel> UpdateCompanyAsync(EditCompanyViewModel model)
         {
             var cnpj = model.Cnpj;
             model.Cnpj = CustomFormatAttribute.RemoveCharacterString(model.Cnpj);
 
-            var company = _companyRepository.GetCompanyById(model.Id);
+            var company = await _companyRepository.GetCompanyByIdAsync(model.Id);
 
             if (company == null)
             {
-               return ResultCustom.Result(company);
+                return ResultCustom.Result(company);
             }
             model.Validate();
             if (!model.IsValid)
@@ -93,7 +93,7 @@ namespace TestBackEndApi.Factory
                 company.FantasyName = model.FantasyName;
                 company.Uf = model.Uf;
 
-                _companyRepository.UpdateCompany(company);
+                await _companyRepository.UpdateCompanyAsync(company);
 
                 return new ResultViewModel
                 {
@@ -112,19 +112,19 @@ namespace TestBackEndApi.Factory
                 };
             }
         }
-        public ResultViewModel DeleteCompany(Guid id)
+        public async Task<ResultViewModel> DeleteCompanyAsync(Guid id)
         {
             try
 
             {
-                var company = _companyRepository.GetCompanyById(id);
+                var company = await _companyRepository.GetCompanyByIdAsync(id);
 
                 if (company == null)
                 {
                     return ResultCustom.Result(company);
                 }
 
-                _companyRepository.DeleleCompany(company);
+                await _companyRepository.DeleleCompanyAsync(company);
 
                 return new ResultViewModel
                 {

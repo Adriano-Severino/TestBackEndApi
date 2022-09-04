@@ -1,19 +1,19 @@
 ﻿using TestBackEndApi.Helpers;
 using TestBackEndApi.Models;
 using TestBackEndApi.Repository;
-using TestBackEndApi.ViewModels;
-using TestBackEndApi.ViewModels.CompanyViewModel;
-using TestBackEndApi.ViewModels.RepositoryViewModel;
+using TestBackEndApi.Models.ViewModels;
+using TestBackEndApi.Models.ViewModels.CompanyViewModel;
+using TestBackEndApi.Models.ViewModels.RepositoryViewModel;
 
 namespace TestBackEndApi.Factory
 {
     public interface CompanyFactoryImp
     {
-        public IEnumerable<ListCompanyViewModel> GetCompanies();
-        public ResultViewModel GetCompanyById(Guid id);
-        public IEnumerable<ListCompanyViewModel> GetCompaniesProvider(Guid id);
-        public ResultViewModel CreateCompany(EditCompanyViewModel model);
-        public ResultViewModel UpdateCompany(EditCompanyViewModel model);
-        public ResultViewModel DeleteCompany(Guid id);
+        public Task<IEnumerable<ListCompanyViewModel>> GetCompaniesAsync();
+        public Task<ResultViewModel> GetCompanyByIdAsync(Guid id);
+        public Task<IEnumerable<ListCompanyViewModel>> GetCompaniesProviderAsync(Guid id);
+        public Task<ResultViewModel> CreateCompanyAsync(EditCompanyViewModel model);
+        public Task<ResultViewModel> UpdateCompanyAsync(EditCompanyViewModel model);
+        public Task<ResultViewModel> DeleteCompanyAsync(Guid id);
     }
 }

@@ -6,7 +6,7 @@ using System.Linq;
 using TestBackEndApi.Domain;
 using TestBackEndApi.Helpers.Extension;
 
-namespace TestBackEndApi.ViewModels.ProviderViewModel
+namespace TestBackEndApi.Models.ViewModels.ProviderViewModel
 {
     public class EditProviderViewModel : Notifiable<Notification>
     {
@@ -17,7 +17,6 @@ namespace TestBackEndApi.ViewModels.ProviderViewModel
         public string? Rg { get; set; }
         public string Telephone { get; set; }
         public bool PhysicalPerson { get; set; }
-        //public Company Company { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
