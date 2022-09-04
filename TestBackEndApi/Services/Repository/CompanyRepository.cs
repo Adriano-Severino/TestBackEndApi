@@ -41,7 +41,6 @@ namespace TestBackEndApi.Repository
         {
             return _context.Companies
                 .Where(x => x.Id == id)
-                //.Include(x => x.Providers)
                 .Select(x => new ListCompanyViewModel
                 {
                     Id = x.Id,

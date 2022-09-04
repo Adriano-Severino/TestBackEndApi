@@ -1,6 +1,5 @@
 ﻿using TestBackEndApi.Domain;
 using TestBackEndApi.Helpers;
-using TestBackEndApi.Models;
 using TestBackEndApi.Services.Repository;
 using TestBackEndApi.ViewModels;
 using TestBackEndApi.ViewModels.CompanyViewModel;
@@ -44,9 +43,10 @@ namespace TestBackEndApi.Factory
                 };
             try
             {
-                var company = new TestBackEndApi.Domain.Company();
+                var company = new Company();
                 company.FantasyName = model.FantasyName;
                 company.Cnpj = cnpj;
+                company.Uf = model.Uf;
 
                 _companyRepository.Save(company);
 
@@ -70,19 +70,17 @@ namespace TestBackEndApi.Factory
         }
         public ResultViewModel UpdateCompany(EditCompanyViewModel model)
         {
+            var cnpj = model.Cnpj;
+            model.Cnpj = CustomFormatAttribute.RemoveCharacterString(model.Cnpj);
+
             var company = _companyRepository.GetCompanyById(model.Id);
 
             if (company == null)
             {
-                return new ResultViewModel
-                {
-                    Success = false,
-                    Message = "Não encontrado",
-                    Data = model.Notifications
-                };
+               return ResultCustom.Result(company);
             }
             model.Validate();
-            if (model.IsValid)
+            if (!model.IsValid)
                 return new ResultViewModel
                 {
                     Success = false,
@@ -91,9 +89,9 @@ namespace TestBackEndApi.Factory
                 };
             try
             {
-                company.Cnpj = model.Cnpj;
+                company.Cnpj = cnpj;
                 company.FantasyName = model.FantasyName;
-                company.Uf = company.Uf;
+                company.Uf = model.Uf;
 
                 _companyRepository.UpdateCompany(company);
 
@@ -123,11 +121,7 @@ namespace TestBackEndApi.Factory
 
                 if (company == null)
                 {
-                    return new ResultViewModel()
-                    {
-                        Success = false,
-                        Message = "Não encontrado",
-                    };
+                    return ResultCustom.Result(company);
                 }
 
                 _companyRepository.DeleleCompany(company);

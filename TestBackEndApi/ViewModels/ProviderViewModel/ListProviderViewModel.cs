@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TestBackEndApi.Models;
+using TestBackEndApi.Domain;
 
 namespace TestBackEndApi.ViewModels.ProviderViewModel
 {
@@ -12,7 +12,7 @@ namespace TestBackEndApi.ViewModels.ProviderViewModel
         public string Rg { get; set; }
         public string Telephone { get; set; }
         public Guid CompanyId { get; set; }
-
+        public Company Company { get; set; }
         [DataType(DataType.Date)]
         public DateTime? BirthDate { get; set; }
 

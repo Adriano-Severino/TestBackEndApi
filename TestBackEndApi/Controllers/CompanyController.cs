@@ -10,7 +10,7 @@ using TestBackEndApi.ViewModels.RepositoryViewModel;
 namespace TestBackEndApi.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/")]
     public class CompanyController : ControllerBase
     {
         private readonly CompanyFactoryImp _companyFactory;
@@ -34,7 +34,7 @@ namespace TestBackEndApi.Controllers
             return _companyFactory.GetCompanyById(id);
         }
 
-        [Route("company/{id}/teste")]
+        [Route("company/{id}/Provider")]
         [HttpGet]
         public IEnumerable<ListCompanyViewModel> GetCompaniesProvider(Guid id)
         {
@@ -50,7 +50,6 @@ namespace TestBackEndApi.Controllers
 
         [Route("company")]
         [HttpPut]
-        [ValidateAntiForgeryToken]
         public ResultViewModel UpdateCompany([Bind("Id,FantasyName,Cnpj,Uf")][FromBody] EditCompanyViewModel model)
         {
             return _companyFactory.UpdateCompany(model);

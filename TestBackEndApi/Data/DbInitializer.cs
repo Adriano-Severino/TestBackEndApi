@@ -27,9 +27,8 @@ namespace TestBackEndApi.Data
             
             var providers = new Provider[]
             {
-                new Provider { Name = "Fornecedor 1" , CompanyId = new Guid("5b9e9b24-9e06-4a0e-b460-62d750223abb"), CpfCnpj = "32.298.799/0001-30", Telephone = "11234567892", CompanyName = "Empresa America Latina Ltda" , BirthDate = null, Registered = DateTime.Now, Rg = null, Id = Guid.NewGuid() },
-                new Provider { Name = "Fornecedor 2" , CompanyId = Guid.NewGuid(), CpfCnpj = "81.922.342/0001-60", Telephone = "11234567892", CompanyName = "Empresa Brasileira Ltda" , BirthDate = null, Registered = DateTime.Now, Rg = null, Id = Guid.NewGuid() },
-                new Provider { Name = "Fornecedor 3" , CompanyId = Guid.NewGuid(), CpfCnpj = "66.593.323/0001-44", Telephone = "11234567892", CompanyName = "Empresa Sp Ltda" , BirthDate = null, Registered = DateTime.Now, Rg = null, Id = Guid.NewGuid() },
+                new Provider { Name = "Fornecedor 2" , CompanyId = Guid.NewGuid(), CpfCnpj = "81.922.342/0001-60", Telephone = "11234567892", CompanyName = "Empresa Brasileira Ltda" , BirthDate = null, Registered = DateTime.Now, Rg = null, Id = Guid.NewGuid(), Company = new Company { Cnpj="76.389.639/0001-72", FantasyName = "Nova Empresa Ltda",Id = Guid.NewGuid(), Uf = "PR" } },
+                new Provider { Name = "Fornecedor 3" , CompanyId = Guid.NewGuid(), CpfCnpj = "66.593.323/0001-44", Telephone = "11234567892", CompanyName = "Empresa Sp Ltda" , BirthDate = null, Registered = DateTime.Now, Rg = null, Id = Guid.NewGuid(), Company = new Company { Cnpj="19.826.132/0001-03", FantasyName = "Empresa Ltda",Id = Guid.NewGuid(), Uf = "FL" } },
             };
 
             foreach (Provider p in providers)

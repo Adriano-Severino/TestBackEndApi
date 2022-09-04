@@ -36,10 +36,9 @@ namespace TestBackEndApi.Services.Repository
             .Where(x => x.Id == id).FirstOrDefault();
 
         }
-        public Provider SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null)
+        public IEnumerable<Provider> SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null)
         {
-            _ = string.IsNullOrEmpty(Name) ? string.IsNullOrEmpty(cpfCnpj)  ? "" : Name = Name : Name = cpfCnpj;
-            return _context.Providers.Where(x => x.Name == Name || x.CpfCnpj == cpfCnpj || x.BirthDate == date || x.Registered == date).AsNoTracking().FirstOrDefault();
+            return _context.Providers.Where(x => x.Name == Name || x.CpfCnpj == cpfCnpj || x.BirthDate == date || x.Registered == date).AsNoTracking().ToList();
         }
         public IEnumerable<ListProviderViewModel> GetCompanyProviders(Guid id)
         {
@@ -55,6 +54,7 @@ namespace TestBackEndApi.Services.Repository
                    Registered = x.Registered,
                    CpfCnpj = x.CpfCnpj,
                    Rg =x.Rg,
+                   Company = x.Company
                    
                 })
                 .AsNoTracking()

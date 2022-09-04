@@ -13,7 +13,7 @@ namespace TestBackEndApi.Helpers
         {
             var cpf = model.Notifications.FirstOrDefault(x => x.Key.Contains("CPF"));
             if (cpf != null)
-            return "CPF/CNPJ inválido";
+                return "CPF/CNPJ inválido";
 
             model.PhysicalPerson = true;
             if (model.Rg != null)
@@ -22,10 +22,14 @@ namespace TestBackEndApi.Helpers
                 {
                     return "É obrigatório cadastrar um Rg válido para pessoas física";
                 } 
-                
             }
             var error = model.Notifications.FirstOrDefault(x => x.Key != "CNPJ");
-            return $"{error.Key}: {error.Message}";
+            if (error != null)
+            {
+                return $"{error.Key}: {error.Message}";
+            }
+            
+            return $"CNPJ";
         }
     }
 }

@@ -9,11 +9,12 @@ using TestBackEndApi.ViewModels.ProviderViewModel;
 using TestBackEndApi.Models;
 using TestBackEndApi.Helpers.Extension;
 using TestBackEndApi.Factory;
+using System.ComponentModel.DataAnnotations;
 
 namespace TestBackEndApi.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/")]
     public class ProviderController : ControllerBase
     {
         private readonly ProviderFactoryImp _providerFactory;
@@ -38,14 +39,14 @@ namespace TestBackEndApi.Controllers
             return _providerFactory.GetProviderById(id);
         }
 
-        //[Route("provider/{Search}")]
-        //[HttpGet]
-        //public Provider SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null)
-        //{
-        //    //return _Repositorio.SearchProvider(Name, cpfCnpj, date);
-        //}
+        [Route("provider/search")]
+        [HttpGet]
+        public ResultViewModel SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null)
+        {
+            return _providerFactory.SearchProvider(Name, cpfCnpj, date);
+        }
 
-        [Route("provider/{id}/teste")]
+        [Route("provider/{id}/company")]
         [HttpGet]
         public IEnumerable<ListProviderViewModel> GetCompanyProviders(Guid id)
         {
@@ -54,15 +55,14 @@ namespace TestBackEndApi.Controllers
 
         [Route("provider")]
         [HttpPost]
-        public ResultViewModel CreateProvider([Bind("Id,Name,CompanyName,CpfCnpj,Telephone,CustomData")][FromBody] EditProviderViewModel model)
+        public ResultViewModel CreateProvider([Bind("Name,CpfCnpj,Rg,Telephone,BirthDate,Registered")][FromBody] EditProviderViewModel model)
         {
             return _providerFactory.CreateProvider(model);
         }
 
         [Route("provider")]
         [HttpPut]
-        [ValidateAntiForgeryToken]
-        public ResultViewModel UpdateProvider([Bind("Id,Name,CompanyName,CpfCnpj,Telephone,CustomData")][FromBody] EditProviderViewModel model)
+        public ResultViewModel UpdateProvider([Bind("Id,Name,CpfCnpj,Rg,Telephone,BirthDate,Registered")][FromBody] EditProviderViewModel model)
         {
             return _providerFactory.UpdateProvider(model);
         }

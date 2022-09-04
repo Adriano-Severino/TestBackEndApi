@@ -26,27 +26,11 @@ namespace TestBackEndApi.Factory
         {
             var provider = _providerRepository.GetProviderById(id);
             return ResultCustom.Result(provider);
-            if (provider != null)
-            {
-                return new ResultViewModel
-                {
-                    Success = true,
-                    Message = $"Fornecedor {provider.Name}",
-                    Data = provider
-                };
-            }
-            return new ResultViewModel
-            {
-                Success = false,
-                Message = "Fornecedor não encontrado",
-                Data = provider
-            };
-
         }
         public ResultViewModel SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null)
         {
-           var provider = _providerRepository.SearchProvider(Name, cpfCnpj, date);
-           return  ResultCustom.Result(provider);
+            var provider = _providerRepository.SearchProvider(Name, cpfCnpj, date);
+            return ResultCustom.Result(provider);
         }
         public IEnumerable<ListProviderViewModel> GetCompanyProviders(Guid id)
         {
@@ -59,25 +43,11 @@ namespace TestBackEndApi.Factory
             model.PhysicalPerson = false;
             model.Validate();
             if (!model.IsValid)
-                if (model.Notifications.Any(x => x.Key.Contains("CNPJ")))
-                {
-                    return new ResultViewModel
-                    {
-                        Success = false,
-                        Message = "Não foi possivel adicionar o forncedor",
-                        Data = CpfCnpj.IsInvalid(model)
-                    };
-                }
-                else
-                {
-                    return new ResultViewModel
-                    {
-                        Success = false,
-                        Message = "Não foi possivel adicionar o forncedor",
-                        Data = model
-                    };
-                }
-
+            {
+                var error = ValidateModel.isNotValid(model);
+                if (error.Data != "CNPJ") return error; 
+            }
+            
             var company = _companyRepository.GetCompanyById(model.CompanyId);
             if (company == null)
                 return new ResultViewModel
@@ -87,7 +57,9 @@ namespace TestBackEndApi.Factory
                     Data = $"Id:{model.CompanyId} veja se a empresa esta cadastrada no sistema"
                 };
 
-            if (CalculateOfAge.IsOfAge(model.BirthDate) && company.Uf.ToLower().Contains("sp") && model.PhysicalPerson)
+            var ofAge = IsOfAge.Result(model, company);
+            
+            if (ofAge)
             {
                 return new ResultViewModel
                 {
@@ -105,8 +77,10 @@ namespace TestBackEndApi.Factory
                 provider.Registered = DateTime.Now;
                 provider.Rg = model.PhysicalPerson ? model.Rg : null;
                 provider.BirthDate = model.PhysicalPerson ? model.BirthDate : null;
-                provider.CompanyName = model.CompanyName;
+                provider.CompanyName = company.FantasyName;
                 provider.CompanyId = model.CompanyId;
+                provider.Telephone = model.Telephone;
+
                 _providerRepository.Save(provider);
 
                 return new ResultViewModel
@@ -129,37 +103,58 @@ namespace TestBackEndApi.Factory
         }
         public ResultViewModel UpdateProvider(EditProviderViewModel model)
         {
+            var cpfCnpj = model.CpfCnpj;
+            model.CpfCnpj = CustomFormatAttribute.RemoveCharacterString(model.CpfCnpj);
+            model.PhysicalPerson = false;
+
             var provider = _providerRepository.GetProviderById(model.Id);
 
             if (provider == null)
             {
+                return ResultCustom.Result(provider);
+            }
+
+            model.Validate();
+            if (!model.IsValid)
+                ValidateModel.isNotValid(model);  
+
+            var company = _companyRepository.GetCompanyById(model.CompanyId);
+            if (company == null)
                 return new ResultViewModel
                 {
                     Success = false,
-                    Message = "Não encontrado",
-                    Data = model.Notifications
+                    Message = "Empresa não encontrada",
+                    Data = $"Id:{model.CompanyId} veja se a empresa esta cadastrada no sistema"
+                };
+
+            var ofAge = IsOfAge.Result(model, company);
+            
+            if (ofAge)
+            {
+                return new ResultViewModel
+                {
+                    Success = false,
+                    Message = "Nào foi possivel cadastrar o fornecedor",
+                    Data = "O fornecedor deve ser maior de 18 anos"
                 };
             }
-            model.Validate();
-            if (model.IsValid)
-                return new ResultViewModel
-                {
-                    Success = false,
-                    Message = "Nao foi possivel atualizar o fornecedor",
-                    Data = model.Notifications
-                };
             try
             {
                 provider.Name = model.Name;
-                provider.CompanyName = model.CompanyName;
-                provider.CpfCnpj = provider.CpfCnpj;
+                provider.CpfCnpj = cpfCnpj;
+                provider.Registered = DateTime.Now;
+                provider.Rg = model.PhysicalPerson ? model.Rg : null;
+                provider.BirthDate = model.PhysicalPerson ? model.BirthDate : null;
+                provider.CompanyName = company.FantasyName;
+                provider.CompanyId = model.CompanyId;
+                provider.Telephone = model.Telephone;
 
                 _providerRepository.UpdateProvider(provider);
 
                 return new ResultViewModel
                 {
                     Success = true,
-                    Message = "Fornecedor atualizado Com Sucesso!",
+                    Message = "Fornecedor atualizado som sucesso!",
                     Data = provider
                 };
             }
@@ -182,11 +177,7 @@ namespace TestBackEndApi.Factory
 
                 if (provider == null)
                 {
-                    return new ResultViewModel()
-                    {
-                        Success = false,
-                        Message = "Não encontrado",
-                    };
+                    return ResultCustom.Result(provider);
                 }
 
                 _providerRepository.DeleleProvider(provider);

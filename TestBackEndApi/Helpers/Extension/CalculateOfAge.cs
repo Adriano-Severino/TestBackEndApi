@@ -2,7 +2,7 @@
 {
     public static class CalculateOfAge
     {
-        public static int CalculateOfAgeProvider(this DateTime dateOfBirth)
+        private static int CalculateOfAgeProvider(this DateTime dateOfBirth)
         {
             var today = DateTime.Today;
             var a = (today.Year * 100 + today.Month) * 100 + today.Day;

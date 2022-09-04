@@ -1,6 +1,7 @@
 ﻿using Flunt.Extensions.Br.Validations;
 using Flunt.Notifications;
 using Flunt.Validations;
+using TestBackEndApi.Domain;
 using TestBackEndApi.Helpers;
 
 namespace TestBackEndApi.ViewModels.CompanyViewModel
@@ -9,7 +10,7 @@ namespace TestBackEndApi.ViewModels.CompanyViewModel
     {
         public Guid Id { get; set; }
         public string FantasyName { get; set; }
-
+        public Guid ProviderId { get; set; }
         public string Cnpj { get; set; }
         public string Uf { get; set; }
         public void Validate()

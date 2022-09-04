@@ -8,7 +8,7 @@ namespace TestBackEndApi.Services.Repository
     {
         public IEnumerable<ListProviderViewModel> GetProviders();
         public Provider GetProviderById(Guid id);
-        public Provider SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null);
+        public IEnumerable<Provider> SearchProvider(string? Name = null, string? cpfCnpj = null, DateTime? date = null);
         public IEnumerable<ListProviderViewModel> GetCompanyProviders(Guid id);
         public bool Save(Provider provider);
         public bool UpdateProvider(Provider provider);
