@@ -15,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using TestBackEndApi.Services;
 using TestBackEndApi.Services.MongoDb;
+using WorldOfImagination.Servicee.MongoDb;
 
 var builder = WebApplication.CreateBuilder(args);
 
