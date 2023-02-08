@@ -1,10 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using TestBackEndApi.Domain;
 using TestBackEndApi.Services.MongoDb;
-using WorldOfImagination.Models;
 
 namespace WorldOfImagination.Servicee.MongoDb
 {
