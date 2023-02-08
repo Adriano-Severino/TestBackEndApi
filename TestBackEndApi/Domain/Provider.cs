@@ -1,9 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+using System.ComponentModel.DataAnnotations;
 
 namespace TestBackEndApi.Domain
 {
     public class Provider : BaseEntity
     {
+
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string ObjectId { get; set; }
         public string Name { get; set; }
         public string CompanyName { get; set; }
         public string CpfCnpj { get; set; }

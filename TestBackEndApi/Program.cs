@@ -14,6 +14,7 @@ using static TestBackEndApi.Services.Key;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using TestBackEndApi.Services;
+using TestBackEndApi.Services.MongoDb;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 });
+
+// Add services to the container.
+builder.Services.Configure<DataBaseSettings>(
+    builder.Configuration.GetSection("MongoDatabase"));
 
 builder.Services.AddMvc(config =>
 {
@@ -62,6 +67,7 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
+builder.Services.AddSingleton<MongoDbService>();
 builder.Services.AddScoped<ApplicationDbContext, ApplicationDbContext>();
 builder.Services.AddTransient<CompanyRepositoryImp, CompanyRepository>();
 builder.Services.AddTransient<ProviderRepositoryImp, ProviderRepository>();
