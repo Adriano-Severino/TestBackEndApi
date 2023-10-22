@@ -1,21 +1,19 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using TestBackEndApi.Data;
 using TestBackEndApi.Factory;
 using TestBackEndApi.Helpers.Extension;
 using TestBackEndApi.Repository;
-using TestBackEndApi.Services.Repository;
-using static TestBackEndApi.Services.Key;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
-using TestBackEndApi.Services;
 using TestBackEndApi.Services.MongoDb;
+using TestBackEndApi.Services.Repository;
 using WorldOfImagination.Servicee.MongoDb;
+using static TestBackEndApi.Services.Key;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,10 +24,8 @@ builder.Services.AddResponseCompression();
 
 builder.Services.AddResponseCompression();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-
-});
+options.UseSqlite(
+                  builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.Configure<DataBaseSettings>(
