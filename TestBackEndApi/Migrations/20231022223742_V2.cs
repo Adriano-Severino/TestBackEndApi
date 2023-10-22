@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TestBackEndApi.Migrations
 {
-    public partial class Initial : Migration
+    public partial class V2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace TestBackEndApi.Migrations
                 name: "Company",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     FantasyName = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
                     Cnpj = table.Column<string>(type: "varchar(18)", maxLength: 18, nullable: false),
                     Uf = table.Column<string>(type: "varchar(2)", maxLength: 2, nullable: false)
@@ -27,11 +27,11 @@ namespace TestBackEndApi.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Username = table.Column<string>(type: "varchar(34)", maxLength: 34, nullable: false),
                     Password = table.Column<string>(type: "varchar(34)", maxLength: 34, nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Token = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Role = table.Column<string>(type: "TEXT", nullable: false),
+                    Token = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,15 +42,16 @@ namespace TestBackEndApi.Migrations
                 name: "Provider",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ObjectId = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "varchar(34)", maxLength: 34, nullable: false),
                     CompanyName = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
                     CpfCnpj = table.Column<string>(type: "varchar(18)", maxLength: 18, nullable: false),
                     Rg = table.Column<string>(type: "varchar(18)", maxLength: 18, nullable: true),
-                    Telephone = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: false),
-                    CompanyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Registered = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Telephone = table.Column<string>(type: "varchar(64)", maxLength: 1024, nullable: false),
+                    CompanyId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    Registered = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
