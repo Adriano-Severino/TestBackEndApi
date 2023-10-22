@@ -115,7 +115,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.UseItToSeedSqlServer();
 }
-app.UseItToSeedSqlServer();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
