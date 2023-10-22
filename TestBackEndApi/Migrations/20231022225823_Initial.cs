@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TestBackEndApi.Migrations
 {
-    public partial class V2 : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,7 +43,7 @@ namespace TestBackEndApi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ObjectId = table.Column<string>(type: "TEXT", nullable: false),
+                    ObjectId = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "varchar(34)", maxLength: 34, nullable: false),
                     CompanyName = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
                     CpfCnpj = table.Column<string>(type: "varchar(18)", maxLength: 18, nullable: false),

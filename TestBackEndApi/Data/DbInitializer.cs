@@ -25,19 +25,19 @@ namespace TestBackEndApi.Data
             {
                 context.Companies.Add(c);
             }
-            context.SaveChanges();
+           
 
             var providers = new Provider[]
             {
-                new Provider { Name = "Fornecedor 2" , CompanyId = Guid.NewGuid(), CpfCnpj = "81.922.342/0001-60", Telephone = "11234567892", CompanyName = "Empresa Brasileira Ltda" , BirthDate = null, Registered = DateTime.Now, Rg = null, Id = Guid.NewGuid(), Company = new Company { Cnpj="76.389.639/0001-72", FantasyName = "Nova Empresa Ltda",Id = Guid.NewGuid(), Uf = "PR" } },
-                new Provider { Name = "Fornecedor 3" , CompanyId = Guid.NewGuid(), CpfCnpj = "66.593.323/0001-44", Telephone = "11234567892", CompanyName = "Empresa Sp Ltda" , BirthDate = null, Registered = DateTime.Now, Rg = null, Id = Guid.NewGuid(), Company = new Company { Cnpj="19.826.132/0001-03", FantasyName = "Empresa Ltda",Id = Guid.NewGuid(), Uf = "FL" } },
+                new Provider {  Name = "Fornecedor 2" , CompanyId = Guid.NewGuid(), CpfCnpj = "81.922.342/0001-60", Telephone = "11234567892", CompanyName = "Empresa Brasileira Ltda" , BirthDate = null, Registered = DateTime.Now, Rg = null, Id = Guid.NewGuid(), Company = new Company { Cnpj="76.389.639/0001-72", FantasyName = "Nova Empresa Ltda",Id = Guid.NewGuid(), Uf = "PR" } },
+               
             };
 
             foreach (Provider p in providers)
             {
                 context.Providers.Add(p);
             }
-            context.SaveChanges();
+           
 
 
             var users = new User[]

@@ -11,8 +11,8 @@ using TestBackEndApi.Data;
 namespace TestBackEndApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231022223742_V2")]
-    partial class V2
+    [Migration("20231022225823_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,7 +73,6 @@ namespace TestBackEndApi.Migrations
                         .HasColumnType("varchar(34)");
 
                     b.Property<string>("ObjectId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Registered")

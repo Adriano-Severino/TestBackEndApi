@@ -71,7 +71,6 @@ namespace TestBackEndApi.Migrations
                         .HasColumnType("varchar(34)");
 
                     b.Property<string>("ObjectId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Registered")

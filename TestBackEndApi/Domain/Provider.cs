@@ -9,7 +9,7 @@ namespace TestBackEndApi.Domain
 
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string ObjectId { get; set; }
+        public string? ObjectId { get; set; }
         public string Name { get; set; }
         public string CompanyName { get; set; }
         public string CpfCnpj { get; set; }
